@@ -1,0 +1,171 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model School {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  description String?
+  logo        String?
+  grades      Grade[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Grade {
+  id          Int       @id @default(autoincrement())
+  label       Int       @unique
+  description String?
+  school      School    @relation(fields: [schoolId], references: [id])
+  schoolId    Int
+  classes     Class[]
+  subjects    Subject[]
+  topics      Topic[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Subject {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  grades      Grade[]
+  topics      Topic[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Year {
+  id          Int      @id @default(autoincrement())
+  start       DateTime
+  end         DateTime
+  description String?
+  classes     Class[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Class {
+  id        Int       @id @default(autoincrement())
+  name      String
+  year      Year      @relation(fields: [yearId], references: [id])
+  yearId    Int
+  grade     Grade     @relation(fields: [gradeId], references: [id])
+  gradeId   Int
+  students  Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  topics      Topic[]
+  documents   Document[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Topic {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  grades      Grade[]
+  subject     Subject    @relation(fields: [subjectId], references: [id])
+  subjectId   Int
+  categories  Category[]
+  documents   Document[]
+  questions   Question[]
+  exams       Exam[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model BookSeries {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  documents   Document[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Document {
+  id           Int        @id @default(autoincrement())
+  description  String?
+  topic        Topic      @relation(fields: [topicId], references: [id])
+  topicId      Int
+  category     Category   @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+  bookSeries   BookSeries @relation(fields: [bookSeriesId], references: [id])
+  bookSeriesId Int
+  filename     String
+  file         String
+  default      Boolean?   @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Student {
+  id          Int          @id @default(autoincrement())
+  studentId   String
+  name        String
+  gender      Boolean
+  dob         DateTime
+  class       Class        @relation(fields: [classId], references: [id])
+  classId     Int
+  transcripts Transcript[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Transcript {
+  id        Int      @id @default(autoincrement())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Question {
+  id        Int      @id @default(autoincrement())
+  type      Boolean  @default(false)
+  level     Int
+  point     Int
+  topic     Topic    @relation(fields: [topicId], references: [id])
+  topicId   Int
+  content   String?
+  answer01  String?
+  answer02  String?
+  answer03  String?
+  answer04  String?
+  answer05  String?
+  answer06  String?
+  exam      Exam?    @relation(fields: [examId], references: [id])
+  examId    Int?
+  lines     Int?     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Exam {
+  id        Int        @id @default(autoincrement())
+  code      String
+  duration  Int
+  type      Boolean
+  topic     Topic      @relation(fields: [topicId], references: [id])
+  topicId   Int
+  questions Question[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
