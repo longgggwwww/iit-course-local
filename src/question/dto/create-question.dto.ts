@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 export class CreateQuestionDto implements Prisma.QuestionCreateInput {
-  type?: boolean;
+  type: string;
   level: number;
   point: number;
   content?: string;
@@ -11,6 +11,7 @@ export class CreateQuestionDto implements Prisma.QuestionCreateInput {
   answer04?: string;
   answer05?: string;
   answer06?: string;
+  lines?: number;
   createdAt?: string | Date;
   updatedAt?: string | Date;
   topic: Prisma.TopicCreateNestedOneWithoutQuestionsInput;

@@ -29,14 +29,10 @@ export class SchoolController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const res = await this.schoolService.findUniq({
+  findOne(@Param('id') id: string) {
+    return this.schoolService.findUniq({
       id: +id,
     });
-
-    console.log(res);
-
-    return res;
   }
 
   @Patch(':id')

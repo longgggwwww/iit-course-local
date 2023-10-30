@@ -15,6 +15,7 @@ import { PrismaModule } from 'nestjs-prisma';
 import { StudentModule } from './student/student.module';
 import { QuestionModule } from './question/question.module';
 import { ExamModule } from './exam/exam.module';
+import { TranscriptModule } from './transcript/transcript.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ExamModule } from './exam/exam.module';
     StudentModule,
     QuestionModule,
     ExamModule,
+    TranscriptModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -35,13 +36,14 @@ model Grade {
 }
 
 model Subject {
-  id          Int      @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String?
   grades      Grade[]
   topics      Topic[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  transcripts Transcript[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Year {
@@ -55,15 +57,16 @@ model Year {
 }
 
 model Class {
-  id        Int       @id @default(autoincrement())
-  name      String
-  year      Year      @relation(fields: [yearId], references: [id])
-  yearId    Int
-  grade     Grade     @relation(fields: [gradeId], references: [id])
-  gradeId   Int
-  students  Student[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          Int          @id @default(autoincrement())
+  name        String
+  year        Year         @relation(fields: [yearId], references: [id])
+  yearId      Int
+  grade       Grade        @relation(fields: [gradeId], references: [id])
+  gradeId     Int
+  students    Student[]
+  transcripts Transcript[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Category {
@@ -130,16 +133,40 @@ model Student {
 }
 
 model Transcript {
-  id        Int      @id @default(autoincrement())
-  student   Student  @relation(fields: [studentId], references: [id])
+  id        Int     @id @default(autoincrement())
+  student   Student @relation(fields: [studentId], references: [id])
   studentId Int
+  class     Class   @relation(fields: [classId], references: [id])
+  classId   Int
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId Int
+  t1S1      Float?
+  t1S2      Float?
+  t1S3      Float?
+  t1S4      Float?
+  t1S5      Float?
+  t1Mid     Float?
+  t1Final   Float?
+  t1Overall Float?
+  t2S1      Float?
+  t2S2      Float?
+  t2S3      Float?
+  t2S4      Float?
+  t2S5      Float?
+  t2Mid     Float?
+  t2Final   Float?
+  t2Overall Float?
+  finalp1   Float?
+  finalp2   Float?
+  final     Float?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Question {
   id        Int      @id @default(autoincrement())
-  type      Boolean  @default(false)
+  type      String
   level     Int
   point     Int
   topic     Topic    @relation(fields: [topicId], references: [id])
@@ -162,7 +189,7 @@ model Exam {
   id        Int        @id @default(autoincrement())
   code      String
   duration  Int
-  type      Boolean
+  type      String
   topic     Topic      @relation(fields: [topicId], references: [id])
   topicId   Int
   questions Question[]

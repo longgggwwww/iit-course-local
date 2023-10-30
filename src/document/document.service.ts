@@ -10,6 +10,7 @@ export class DocumentService {
     return this.prisma.document.create({
       data,
       include: {
+        category: true,
         topic: {
           include: {
             grades: {
@@ -45,6 +46,7 @@ export class DocumentService {
       where,
       orderBy,
       include: {
+        category: true,
         topic: {
           include: {
             grades: {
@@ -69,6 +71,7 @@ export class DocumentService {
     return this.prisma.document.findUnique({
       where,
       include: {
+        category: true,
         topic: {
           include: {
             grades: {
@@ -98,6 +101,7 @@ export class DocumentService {
       data,
       where,
       include: {
+        category: true,
         topic: {
           include: {
             grades: {
@@ -128,6 +132,7 @@ export class DocumentService {
     return this.prisma.document.delete({
       where,
       include: {
+        category: true,
         topic: {
           include: {
             grades: {
