@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { TranscriptService } from './transcript.service';
-import { UpsertTranscriptDto } from './dto/update-transcript.dto';
+import { UpdateTranscriptDto } from './dto/update-transcript.dto';
 import { FindTranscriptDto } from './dto/find-transcript.dto';
 import { DeleteTranscriptDto } from './dto/delete-transcript.dto';
 
@@ -29,15 +29,14 @@ export class TranscriptController {
 
   @Patch(':id')
   update(
-    @Param('id') id?: string,
-    @Body() upsertTranscriptDto: UpsertTranscriptDto,
+    @Param('id') id: string,
+    @Body() updateTranscriptDto: UpdateTranscriptDto,
   ) {
     return this.transcriptService.update({
       where: {
         id: +id,
       },
-      dataUpdateInput: upsertTranscriptDto.update,
-      dataCreateInput: upsertTranscriptDto.create,
+      data: updateTranscriptDto,
     });
   }
 

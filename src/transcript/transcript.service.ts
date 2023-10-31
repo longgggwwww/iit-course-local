@@ -6,6 +6,22 @@ import { PrismaService } from 'nestjs-prisma';
 export class TranscriptService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async create(data: Prisma.TranscriptCreateInput) {
+    return this.prisma.transcript.create({
+      data,
+      include: {
+        class: {
+          include: {
+            grade: true,
+            year: true,
+          },
+        },
+        subject: true,
+        student: true,
+      },
+    });
+  }
+
   async findAll(params: {
     skip?: number;
     take?: number;
@@ -51,13 +67,11 @@ export class TranscriptService {
 
   async update(params: {
     where: Prisma.TranscriptWhereUniqueInput;
-    dataUpdateInput: Prisma.TranscriptUpdateInput;
-    dataCreateInput: Prisma.TranscriptCreateInput;
+    data: Prisma.TranscriptUpdateInput;
   }) {
-    const { where, dataCreateInput, dataUpdateInput } = params;
-    return this.prisma.transcript.upsert({
-      update: dataUpdateInput,
-      create: dataCreateInput,
+    const { where, data } = params;
+    return this.prisma.transcript.update({
+      data,
       where,
       include: {
         class: {
