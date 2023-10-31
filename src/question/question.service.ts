@@ -62,32 +62,7 @@ export class QuestionService {
       });
       res.push(ans);
     }
-    return data.map((data) =>
-      this.prisma.question.create({
-        data,
-        include: {
-          topic: {
-            include: {
-              subject: true,
-            },
-          },
-          exam: {
-            include: {
-              topic: {
-                include: {
-                  grades: {
-                    include: {
-                      school: true,
-                    },
-                  },
-                  subject: true,
-                },
-              },
-            },
-          },
-        },
-      }),
-    );
+    return res;
   }
 
   async findAll(params: {
