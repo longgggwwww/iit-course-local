@@ -83,9 +83,9 @@
       "node_modules/.prisma/client/*"
     ],
     "targets": [
-      "node18-win-x64",
-      "node18-linux-x64",
-      "node18-mac-x64"
+      "node16-win-x64",
+      "node16-linux-x64",
+      "node16-mac-x64"
     ]
   }
 }

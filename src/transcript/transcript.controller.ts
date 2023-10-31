@@ -29,7 +29,7 @@ export class TranscriptController {
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id?: string,
     @Body() upsertTranscriptDto: UpsertTranscriptDto,
   ) {
     return this.transcriptService.update({
