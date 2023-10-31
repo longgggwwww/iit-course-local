@@ -6,15 +6,23 @@ import {
   Param,
   Delete,
   Query,
+  Post,
 } from '@nestjs/common';
 import { TranscriptService } from './transcript.service';
 import { UpdateTranscriptDto } from './dto/update-transcript.dto';
 import { FindTranscriptDto } from './dto/find-transcript.dto';
 import { DeleteTranscriptDto } from './dto/delete-transcript.dto';
+import { CreateTranscriptDto } from './dto/create-transcript.dto';
 
 @Controller('transcripts')
 export class TranscriptController {
   constructor(private readonly transcriptService: TranscriptService) {}
+
+  @Post()
+  create(@Body() createTranscriptDto: CreateTranscriptDto) {
+    return this.transcriptService.create(createTranscriptDto);
+  }
+
   @Get()
   findAll(@Query() findTranscriptDto: FindTranscriptDto) {
     return this.transcriptService.findAll(findTranscriptDto);
