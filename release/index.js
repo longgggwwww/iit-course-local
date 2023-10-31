@@ -8,8 +8,11 @@ console.log('Đường dẫn tuyệt đối hiện tại:', process.cwd());
 
 const content = `
 PORT=${process.env.PORT}
-EXEC_FILE=${process.env.EXEC_FILE}
-DATABASE_URL="file:${process.cwd()}/prod.db"
+DB=${process.env.DB}
+EXEC=${process.env.EXEC}
+
+# Make by system
+DATABASE_URL="file:${process.cwd()}/${process.env.DB}"
 `;
 
 fs.writeFile('.env', content, (err) => {
@@ -19,7 +22,7 @@ fs.writeFile('.env', content, (err) => {
     return;
   }
 
-  const bat = spawn(`${process.env.EXEC_FILE}`, { shell: true });
+  const bat = spawn(`${process.env.EXEC}`, { shell: true });
 
   bat.stdout.on('data', (data) => {
     console.log(`${data}`);
