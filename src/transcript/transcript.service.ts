@@ -1,26 +1,96 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTranscriptDto } from './dto/create-transcript.dto';
-import { UpdateTranscriptDto } from './dto/update-transcript.dto';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class TranscriptService {
-  create(createTranscriptDto: CreateTranscriptDto) {
-    return 'This action adds a new transcript';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.TranscriptWhereUniqueInput;
+    where?: Prisma.TranscriptWhereInput;
+    orderBy?: Prisma.TranscriptOrderByWithRelationInput;
+  }) {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.transcript.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+      include: {
+        class: {
+          include: {
+            grade: true,
+            year: true,
+          },
+        },
+        subject: true,
+        student: true,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all transcript`;
+  async findUniq(where: Prisma.TranscriptWhereUniqueInput) {
+    return this.prisma.transcript.findUniqueOrThrow({
+      where,
+      include: {
+        class: {
+          include: {
+            grade: true,
+            year: true,
+          },
+        },
+        subject: true,
+        student: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transcript`;
+  async update(params: {
+    where: Prisma.TranscriptWhereUniqueInput;
+    dataUpdateInput: Prisma.TranscriptUpdateInput;
+    dataCreateInput: Prisma.TranscriptCreateInput;
+  }) {
+    const { where, dataCreateInput, dataUpdateInput } = params;
+    return this.prisma.transcript.upsert({
+      update: dataUpdateInput,
+      create: dataCreateInput,
+      where,
+      include: {
+        class: {
+          include: {
+            grade: true,
+            year: true,
+          },
+        },
+        subject: true,
+        student: true,
+      },
+    });
   }
 
-  update(id: number, updateTranscriptDto: UpdateTranscriptDto) {
-    return `This action updates a #${id} transcript`;
+  async removeMany(where: Prisma.TranscriptWhereInput) {
+    return this.prisma.transcript.deleteMany({
+      where,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transcript`;
+  async remove(where: Prisma.TranscriptWhereUniqueInput) {
+    return this.prisma.transcript.delete({
+      where,
+      include: {
+        class: {
+          include: {
+            grade: true,
+            year: true,
+          },
+        },
+        subject: true,
+        student: true,
+      },
+    });
   }
 }

@@ -21,6 +21,7 @@ export class DocumentService {
             categories: true,
             subject: {
               include: {
+                topics: true,
                 grades: true,
               },
             },
@@ -57,6 +58,7 @@ export class DocumentService {
             categories: true,
             subject: {
               include: {
+                topics: true,
                 grades: true,
               },
             },
@@ -82,6 +84,7 @@ export class DocumentService {
             categories: true,
             subject: {
               include: {
+                topics: true,
                 grades: true,
               },
             },
@@ -112,6 +115,7 @@ export class DocumentService {
             categories: true,
             subject: {
               include: {
+                topics: true,
                 grades: true,
               },
             },
@@ -143,6 +147,7 @@ export class DocumentService {
             categories: true,
             subject: {
               include: {
+                topics: true,
                 grades: true,
               },
             },

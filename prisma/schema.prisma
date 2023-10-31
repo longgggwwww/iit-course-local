@@ -134,12 +134,12 @@ model Student {
 }
 
 model Transcript {
-  id        Int     @id @default(autoincrement())
-  student   Student @relation(fields: [studentId], references: [id])
+  id        Int      @id @default(autoincrement())
+  student   Student  @relation(fields: [studentId], references: [id])
   studentId Int
-  class     Class   @relation(fields: [classId], references: [id])
+  class     Class    @relation(fields: [classId], references: [id])
   classId   Int
-  subject   Subject @relation(fields: [subjectId], references: [id])
+  subject   Subject  @relation(fields: [subjectId], references: [id])
   subjectId Int
   t1S1      Float?
   t1S2      Float?
@@ -160,7 +160,6 @@ model Transcript {
   finalp1   Float?
   finalp2   Float?
   final     Float?
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
