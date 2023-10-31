@@ -34,32 +34,59 @@ export class QuestionService {
   }
 
   async createMany(data: Prisma.QuestionCreateInput[]) {
-    return data.map(
-      async (data) =>
-        await this.prisma.question.create({
-          data,
-          include: {
-            topic: {
-              include: {
-                subject: true,
-              },
+    const res = [];
+    for (const d of data) {
+      const ans = await this.prisma.question.create({
+        data: d,
+        include: {
+          topic: {
+            include: {
+              subject: true,
             },
-            exam: {
-              include: {
-                topic: {
-                  include: {
-                    grades: {
-                      include: {
-                        school: true,
-                      },
+          },
+          exam: {
+            include: {
+              topic: {
+                include: {
+                  grades: {
+                    include: {
+                      school: true,
                     },
-                    subject: true,
                   },
+                  subject: true,
                 },
               },
             },
           },
-        }),
+        },
+      });
+      res.push(ans);
+    }
+    return data.map((data) =>
+      this.prisma.question.create({
+        data,
+        include: {
+          topic: {
+            include: {
+              subject: true,
+            },
+          },
+          exam: {
+            include: {
+              topic: {
+                include: {
+                  grades: {
+                    include: {
+                      school: true,
+                    },
+                  },
+                  subject: true,
+                },
+              },
+            },
+          },
+        },
+      }),
     );
   }
 
