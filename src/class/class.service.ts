@@ -16,7 +16,15 @@ export class ClassService {
           },
         },
         year: true,
-        students: true,
+        students: {
+          include: {
+            class: {
+              include: {
+                grade: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -42,7 +50,15 @@ export class ClassService {
           },
         },
         year: true,
-        students: true,
+        students: {
+          include: {
+            class: {
+              include: {
+                grade: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -57,7 +73,15 @@ export class ClassService {
           },
         },
         year: true,
-        students: true,
+        students: {
+          include: {
+            class: {
+              include: {
+                grade: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -77,7 +101,15 @@ export class ClassService {
           },
         },
         year: true,
-        students: true,
+        students: {
+          include: {
+            class: {
+              include: {
+                grade: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -98,7 +130,15 @@ export class ClassService {
           },
         },
         year: true,
-        students: true,
+        students: {
+          include: {
+            class: {
+              include: {
+                grade: true,
+              },
+            },
+          },
+        },
       },
     });
   }
