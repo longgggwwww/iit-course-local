@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.setGlobalPrefix('api');
-  app.use('/uploads', static_(join(__dirname, '..', 'upload')));
+  app.use('/uploads', static_(join('upload')));
   app.enableCors();
   app.use(json({ limit: '200mb' }));
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
